@@ -1,0 +1,6 @@
+.parent {
+  display: flex;
+  flex-direction: column;
+  flex: 0.2;
+  border: 1px solid black;
+}
