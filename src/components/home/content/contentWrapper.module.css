@@ -3,7 +3,8 @@
   margin-left: 1vw;
   margin-right: 1vw;
   border: 1px solid black;
-  margin-top: -50px;
+  margin-top: -15vh;
   width: 95vw;
   flex-direction: column;
+  z-index: 4;
 }

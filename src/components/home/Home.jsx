@@ -5,6 +5,7 @@ import ContentWrapper from "./content/ContentWrapper";
 import Vision from "./vision/Vision";
 import Testimonial from "./testimonial/Testimonial";
 import Faq from "./content/faq/Faq";
+import GrainyGradiant from "../../reusableComponent/backgroundGrainyGrad/GrainyGradiant";
 const Home = () => {
   return (
     <div className={styles.parent}>
@@ -14,9 +15,11 @@ const Home = () => {
           flexDirection: "column",
         }}
       >
-        <Hero />
+        {/* <GrainyGradiant>
+          <Hero /> */}
 
         <ContentWrapper />
+        {/* </GrainyGradiant> */}
       </div>
 
       <Vision />

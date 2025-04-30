@@ -1,5 +1,14 @@
 .parent {
   display: flex;
-  height: 45vh;
-  border: 1px solid black;
+  height: 55vh;
+  /* border: 1px solid black; */
+  /* background: #f00c1b;
+  border-bottom-left-radius: 55%;
+  border-bottom-right-radius: 55%; */
+  /* background: linear-gradient(
+    55deg,
+    rgba(240, 12, 27, 1) 0%,
+    rgba(245, 118, 7, 1) 50%,
+    rgba(237, 83, 157, 1) 100%
+  ); */
 }
