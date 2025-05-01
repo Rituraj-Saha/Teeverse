@@ -2,7 +2,7 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
-import Nav from "./components/navigationBar/nav";
+import Nav from "./components/navigationBar/Nav";
 import Hero from "./components/home/heroSection/Hero";
 import Home from "./components/home/Home";
 import "@fontsource/roboto/300.css";
@@ -24,7 +24,7 @@ function App() {
         <Divider
           component="div"
           variant="middle"
-          sx={{ border: "1px solid", borderColor: "divider" }}
+          sx={{ border: "0.2 solid", borderColor: "#FFF" }}
           orientation="horizontal"
         />
         <Hero />

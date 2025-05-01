@@ -1,10 +1,18 @@
 .parent {
   display: flex;
-  margin-left: 1vw;
-  margin-right: 1vw;
-  border: 1px solid black;
-  margin-top: -15vh;
-  width: 95vw;
+  /* margin-left: 1vw;
+  margin-right: 1vw; */
+  /* border: 1px solid black; */
+  margin-top: -5vh;
+  width: 100%;
   flex-direction: column;
   z-index: 4;
+  align-items: center;
+}
+.featBoldTextStyle {
+  margin-top: 10vh;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 800;
+  font-size: 30px;
+  color: rgb(11, 3, 63);
 }

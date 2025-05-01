@@ -7,7 +7,7 @@ const ContentWrapper = () => {
   return (
     <div className={styles.parent}>
       <BannerTop />
-      <span>Our featured Store</span>
+      <span className={styles.featBoldTextStyle}>Our featured Store</span>
       <StoreWrapper />
       <BannerMid />
     </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./nav.module.css";
-import { ShirtLOGO } from "../../assets/svgAssets";
+import { cartIcon, searchIcon, ShirtLOGO } from "../../assets/svgAssets";
 import SvgStringRenderer from "../../reusableComponent/SvgReusableRenderer";
 import { Chip, useTheme } from "@mui/material";
 const NAVITEMS = [
@@ -27,58 +27,15 @@ function Nav() {
   const theme = useTheme();
   return (
     <nav className={styles.parent}>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          flex: 0.3,
-          border: "1px solid black",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            border: "1px solid white",
-            alignItems: "center",
-            justifyContent: "center",
-            borderRadius: "80%",
-            padding: "10px",
-            marginTop: "5px",
-            marginBottom: "5px",
-            marginLeft: "5px",
-            filter: "drop-shadow(0 0 0.75remrgb(64, 57, 55))",
-          }}
-        >
+      <div className={styles.navBranding}>
+        <div className={styles.logoWrapper}>
           <SvgStringRenderer svgString={ShirtLOGO} />
         </div>
-        <span
-          style={{
-            marginLeft: "35px",
-            color: "#FFFFFF",
-            fontWeight: "800",
-          }}
-        >
-          TEE-VERSE
-        </span>
+        <span className={styles.brandingText}>TEE-VERSE</span>
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          flex: 0.4,
-          border: "1px solid black",
-        }}
-      >
-        <ul
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            flex: 1,
-            alignItems: "space-between",
-            alignContent: "space-between",
-          }}
-        >
+      <div className={styles.optionContainer}>
+        <ul className={styles.ulStyle}>
           {NAVITEMS.map((itemm, index) => {
             return (
               <Chip
@@ -87,15 +44,41 @@ function Nav() {
                 onClick={itemm.onClick}
                 variant="outlined"
                 sx={{
-                  background: theme.palette.primary.main,
+                  background: theme.palette.custom.dark,
                   color: "#FFF",
+                  paddingLeft: "5px",
+                  paddingRight: "5px",
                 }}
               ></Chip>
             );
           })}
         </ul>
       </div>
-      <div></div>
+      <div className={styles.searchCartContainer}>
+        <div className={styles.scItem}>
+          <SvgStringRenderer svgString={cartIcon} />
+          <span>Cart</span>
+        </div>
+        <div className={styles.scItem}>
+          <SvgStringRenderer
+            svgString={searchIcon}
+            height={"30px"}
+            width={"30px"}
+          />
+          <span>Search</span>
+        </div>
+        <Chip
+          label={"Get Started"}
+          onClick={() => {
+            console.log("get started clicked");
+          }}
+          variant="outlined"
+          sx={{
+            background: theme.palette.secondary.main,
+            color: "#FFF",
+          }}
+        />
+      </div>
     </nav>
   );
 }
