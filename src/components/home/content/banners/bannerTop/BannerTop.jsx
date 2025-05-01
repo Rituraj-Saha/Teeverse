@@ -66,7 +66,7 @@ const BannerTop = () => {
       >
         {bannerPointer.map((item, idx) => {
           return (
-            <div>
+            <div key={idx}>
               <span
                 style={{
                   fontSize: "20px",
