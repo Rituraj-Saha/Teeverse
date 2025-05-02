@@ -29,59 +29,19 @@ const BannerTop = () => {
   ];
   return (
     <div className={styles.parent}>
-      <div
-        style={{
-          display: "flex",
-          gap: "8px",
-        }}
-      >
-        <span
-          style={{
-            color: "white",
-          }}
-        >
+      <div className={styles.msgLine}>
+        <span className={styles.whitecolorText}>
           Wear your style and follow the trend with{" "}
         </span>
-        <span
-          style={{
-            color: theme.palette.error.main,
-            fontWeight: 800,
-          }}
-        >
-          30k+{" "}
-        </span>
-        <span
-          style={{
-            color: "white",
-          }}
-        >
-          others
-        </span>
+        <span className={styles.outColorText}>30k+ </span>
+        <span className={styles.whitecolorText}>others</span>
       </div>
-      <div
-        style={{
-          display: "flex",
-          gap: "8px",
-        }}
-      >
+      <div className={styles.bannerPointerContainer}>
         {bannerPointer.map((item, idx) => {
           return (
             <div key={idx}>
-              <span
-                style={{
-                  fontSize: "20px",
-                }}
-              >
-                {item.svg}
-              </span>
-              <span
-                style={{
-                  fontSize: "12px",
-                  color: "white",
-                }}
-              >
-                {item.msg}
-              </span>
+              <span className={styles.emojiStyle}>{item.svg}</span>
+              <span className={styles.emojiText}>{item.msg}</span>
             </div>
           );
         })}
