@@ -6,7 +6,14 @@ function StoreWrapper() {
   return (
     <div className={styles.parent}>
       <FilterContainer />
-      <StoreContent />
+      <div
+        style={{
+          display: "flex",
+          flex: 1,
+        }}
+      >
+        <StoreContent />
+      </div>
     </div>
   );
 }

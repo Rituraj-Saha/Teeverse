@@ -19,18 +19,22 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <GrainyGradiant>
-        <Nav />
+
+      <Nav />
+      <div
+        style={{
+          marginTop: "8vh",
+        }}
+      >
         <Divider
           component="div"
           variant="middle"
           sx={{ border: "0.2 solid", borderColor: "#FFF" }}
           orientation="horizontal"
         />
-        <Hero />
-      </GrainyGradiant>
 
-      <Home />
+        <Home />
+      </div>
     </ThemeProvider>
   );
 }

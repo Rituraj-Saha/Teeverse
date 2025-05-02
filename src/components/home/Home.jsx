@@ -15,11 +15,10 @@ const Home = () => {
           flexDirection: "column",
         }}
       >
-        {/* <GrainyGradiant>
-          <Hero /> */}
-
+        <GrainyGradiant>
+          <Hero />
+        </GrainyGradiant>
         <ContentWrapper />
-        {/* </GrainyGradiant> */}
       </div>
 
       <Vision />

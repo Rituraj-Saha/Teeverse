@@ -120,7 +120,7 @@ const Hero = () => {
         style={{
           display: "flex",
           flex: 0.5,
-          border: "1px solid black",
+          // border: "1px solid black",
           minHeight: "100%",
         }}
       ></div>

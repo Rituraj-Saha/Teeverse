@@ -1,44 +1,48 @@
 import React from "react";
-
+import _ from "lodash";
+import { useTheme } from "@emotion/react";
+import styles from "./thumbnailItemView.module.css";
+import samplebgremove from "../../../assets/samplebgremove.png";
+import SvgStringRenderer from "../../SvgReusableRenderer";
+import { cartIconItem } from "../../../assets/svgAssets";
+import { Chip } from "@mui/material";
 const SizeSelector = (props) => {
   const { availableSize } = props;
   const options = ["S", "M", "L", "XL", "XXL"];
   const [selectedSize, setSelectedSize] = React.useState("M");
+  const theme = useTheme();
+  const handleChange = (size) => {
+    setSelectedSize(size);
+  };
   return (
-    <div style={{ display: "flex", gap: "2px" }}>
+    <div className={styles.sizeSelectorParent}>
       {options.map((item, index) => {
+        const isAvailable = _.includes(availableSize, item);
+        const isSelected = selectedSize === item;
+
         return (
           <div
             key={index}
+            className={styles.sizeSelectorItemParent}
             style={{
-              display: "flex",
-              flex: "1",
-              border: "1px solid black",
-              gap: "2px",
+              cursor: isAvailable ? "pointer" : "not-allowed",
+              opacity: isAvailable ? 1 : 0.4,
+            }}
+            onClick={() => {
+              if (isAvailable) handleChange(item);
             }}
           >
             <div
+              className={styles.sizeSelectorBoxParent}
               style={{
-                display: "flex",
-                width: "40%",
-                border: "1px solid black",
-                padding: "2px",
+                border: `1.8px solid ${
+                  isAvailable ? "black" : theme.palette.disable.main
+                }`,
               }}
             >
-              <div
-                style={
-                  selectedSize === item
-                    ? {
-                        background: "green",
-                        display: "flex",
-                        height: "100%",
-                        width: "100%",
-                      }
-                    : { display: "none" }
-                }
-              ></div>
+              {isSelected && <div className={styles.sizeSelectorseletedBox} />}
             </div>
-            <span style={{ fontSize: "10px" }}>{item}</span>
+            <span style={{ fontSize: "13px" }}>{item}</span>
           </div>
         );
       })}
@@ -56,48 +60,70 @@ const ThumbnailItemView = (props) => {
     maxStock,
     sizeAvailabilibity,
   } = props;
+  const theme = useTheme();
   return (
-    <div
-      style={{
-        display: "flex",
-        border: "1px solid black",
-        width: "20vw",
-        height: "50vh",
-        flexDirection: "column",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          border: "1px solid black",
-          flex: "0.7",
-        }}
-      ></div>
-      <div
-        style={{
-          display: "flex",
-          border: "1px solid black",
-          flex: "0.3",
-          flexDirection: "column",
-        }}
-      >
-        <span>{name}</span>
-        <div
-          style={{
-            display: "flex",
-            flex: ".1",
-          }}
-        >
+    <div className={styles.parentTumbnail}>
+      <div className={styles.imageContainer}>
+        <img src={samplebgremove} height={"100%"} width={"100%"} />
+      </div>
+      <div className={styles.infoContainerS}>
+        <div className={styles.nameContainer}>
+          <span className={styles.productName}>{name}</span>
+          <Chip
+            label={"View Product"}
+            onClick={() => {}}
+            variant="outlined"
+            sx={{
+              background: theme.palette.custom.lightSecondary,
+              color: "#FFF",
+              paddingLeft: "5px",
+              paddingRight: "5px",
+              "&:hover": {
+                color: "#000", // Hover font color
+                backgroundColor: "#f0f0f0", // optional
+              },
+            }}
+          ></Chip>
+        </div>
+        <div className={styles.gaContainer}>
           <div>
-            <span>Gender:</span>
-            <span>{gender}</span>
+            <span className={styles.productName}>Gender:</span>
+            <span className={styles.nameValue}>{gender}</span>
           </div>
           <div>
-            <span>Age:</span>
-            <span>{ageGroup}</span>
+            <span className={styles.productName}>Age:</span>
+            <span className={styles.nameValue}>{ageGroup}</span>
           </div>
         </div>
         <SizeSelector availableSize={sizeAvailabilibity} />
+        <div className={styles.priceContainer}>
+          <span className={styles.productName}>INR: </span>
+          <span
+            className={styles.nameValue}
+            style={{
+              textDecoration: "line-through",
+            }}
+          >
+            {`₹${price}`}
+          </span>
+          <span
+            className={styles.nameValue}
+            style={{
+              color: "green",
+            }}
+          >{`${discount}%off`}</span>
+          <span
+            className={styles.nameValue}
+            style={{
+              color: "green",
+            }}
+          >
+            {`₹${price - (price * discount) / 100}`}
+          </span>
+          <div className={styles.cartWrapper}>
+            <SvgStringRenderer svgString={cartIconItem} />
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -22,11 +22,15 @@ const theme = createTheme({
       main: "#4caf50",
     },
     // You can add custom colors too
+    disable: {
+      main: "#b1afae",
+    },
     custom: {
       light: "#f0f0f0",
       main: "#9c27b0",
       dark: "#6a0080",
       contrastText: "#fff",
+      lightSecondary: "#f15e8a",
     },
   },
   typography: {
