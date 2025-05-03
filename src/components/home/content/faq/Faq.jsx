@@ -91,7 +91,14 @@ const Faq = () => {
             );
           })}
         </div>
-        <div></div>
+        <div
+          style={{
+            display: "flex",
+            flex: 0.9,
+            width: "100%",
+            border: "1px solid black",
+          }}
+        ></div>
       </div>
     </div>
   );
