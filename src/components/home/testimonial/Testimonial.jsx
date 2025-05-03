@@ -2,6 +2,21 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import styles from "./testimonial.module.css";
+import HeaderText from "../../../reusableComponent/headerText/HeaderText";
+
+const TestimonialItems = (props) => {
+  const { review, name, image } = props;
+  return (
+    <div className={styles.testimonialDiv}>
+      <span>{review}</span>
+      <div className={styles.testimonialSeperator}></div>
+      <div style={{ display: "flex" }}>
+        <img></img>
+        <span>{name}</span>
+      </div>
+    </div>
+  );
+};
 const Testimonial = () => {
   const testimonials = [
     {
@@ -27,7 +42,7 @@ const Testimonial = () => {
   ];
   return (
     <div className={styles.parent}>
-      <div
+      {/* <div
         style={{
           display: "block",
           // border: "1px solid black",
@@ -48,18 +63,16 @@ const Testimonial = () => {
             left: "50%",
           }}
         ></div>
-      </div>
-      <div style={{ height: "70%", width: "100%" }}>
+      </div> */}
+      <HeaderText textMsg={"Testimonial"} />
+      <div style={{ height: "70%", width: "100%", paddingRight: "50px" }}>
         <Swiper
-          spaceBetween={40}
+          spaceBetween={150}
           slidesPerView={3}
           onSlideChange={() => console.log("slide change")}
           onSwiper={(swiper) => console.log(swiper)}
-          style={{
-            paddingRight: "70px",
-          }}
         >
-          <SwiperSlide>
+          {/* <SwiperSlide>
             <div
               style={{
                 width: "30vw",
@@ -106,7 +119,18 @@ const Testimonial = () => {
             >
               abc
             </div>
-          </SwiperSlide>
+          </SwiperSlide> */}
+          {testimonials.map((item, idx) => {
+            return (
+              <SwiperSlide>
+                <TestimonialItems
+                  name={item.name}
+                  review={item.review}
+                  image={item.image}
+                />
+              </SwiperSlide>
+            );
+          })}
         </Swiper>
       </div>
     </div>

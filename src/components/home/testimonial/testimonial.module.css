@@ -5,9 +5,30 @@
   flex-direction: column;
   margin-top: 50px;
 }
-.boldTextHeader {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-weight: 800;
-  font-size: 30px;
-  color: rgb(11, 3, 63);
+
+.testimonialDiv {
+  display: flex;
+  width: 30vw;
+  height: 20vh;
+  margin: 50px;
+  flex-direction: column;
+  /* border: 1px solid black; */
+  padding: 25px;
+  background: #e4def8c2;
+  justify-content: center;
+  gap: 5px;
+  border-radius: 15px;
+  box-shadow: 0 4px 30px rgba(195, 195, 195, 0.632);
+  backdrop-filter: blur(5px);
+}
+.testimonialSeperator {
+  height: 1.5px;
+  width: 75%;
+  background: #f00c1b;
+  background: linear-gradient(
+    55deg,
+    rgba(240, 12, 27, 1) 0%,
+    rgba(245, 118, 7, 1) 50%,
+    rgba(237, 83, 157, 1) 100%
+  );
 }

@@ -8,6 +8,7 @@ import {
   qualityCheck,
   trendyWear,
 } from "../../../assets/svgAssets";
+import HeaderText from "../../../reusableComponent/headerText/HeaderText";
 
 const offering = [
   {
@@ -35,21 +36,7 @@ const Vision = () => {
   const theme = useTheme();
   return (
     <div className={styles.parent}>
-      <div>
-        <div
-          style={{ border: "1px solid black", height: "1px", width: "25px" }}
-        ></div>
-        <span className={styles.boldTextHeader}>We Deliver</span>
-        <div
-          style={{
-            position: "relative",
-            border: "1px solid black",
-            height: "1px",
-            width: "25px",
-            left: "70%",
-          }}
-        ></div>
-      </div>
+      <HeaderText textMsg={"We Deliver"} />
       <div
         style={{
           display: "flex",
