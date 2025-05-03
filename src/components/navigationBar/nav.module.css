@@ -45,7 +45,7 @@
 .optionContainer {
   display: flex;
   align-items: center;
-  flex: 0.3;
+  flex: 0.35;
 }
 .searchCartContainer {
   display: flex;

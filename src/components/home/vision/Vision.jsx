@@ -2,7 +2,12 @@ import React from "react";
 import styles from "./vision.module.css";
 import SvgStringRenderer from "../../../reusableComponent/SvgReusableRenderer";
 import { useTheme } from "@mui/material";
-import { customDesign, trendyWear } from "../../../assets/svgAssets";
+import {
+  customDesign,
+  hastleFreeDelivery,
+  qualityCheck,
+  trendyWear,
+} from "../../../assets/svgAssets";
 
 const offering = [
   {
@@ -18,12 +23,12 @@ const offering = [
   {
     tag: "Premium quality",
     desc: "Get the trendy fashion at your fingerTip",
-    svg: trendyWear,
+    svg: qualityCheck,
   },
   {
-    tag: "Shop for trendy wear",
+    tag: "Hastle free delivery",
     desc: "Get the trendy fashion at your fingerTip",
-    svg: customDesign,
+    svg: hastleFreeDelivery,
   },
 ];
 const Vision = () => {
@@ -54,7 +59,7 @@ const Vision = () => {
           alignItems: "center",
           justifyContent: "center",
           background: theme.palette.lightBackdropForDeliver.main,
-          boxShadow: "0 4px 30px rgba(225, 94, 114, 0.632)",
+          boxShadow: "0 4px 30px rgba(166, 128, 243, 0.63)",
           backdropFilter: "blur(5px)",
           borderRadius: "5px",
         }}
@@ -71,13 +76,14 @@ const Vision = () => {
                 border: "1px solid black",
                 height: "15vh",
                 alignItems: "center",
+                background: "rgba(34, 25, 72, 0.997)",
+                borderRadius: "6px",
               }}
             >
               <div
                 style={{
                   display: "flex",
                   flex: 0.2,
-
                   padding: "5px",
                 }}
               >
@@ -92,12 +98,24 @@ const Vision = () => {
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  border: "1px solid black",
                   flex: ".8",
                 }}
               >
-                <span>{item.tag}</span>
-                <span>{item.desc}</span>
+                <span
+                  style={{
+                    color: "white",
+                  }}
+                >
+                  {item.tag}
+                </span>
+                <span
+                  style={{
+                    color: "white",
+                    fontSize: "12px",
+                  }}
+                >
+                  {item.desc}
+                </span>
               </div>
             </div>
           );

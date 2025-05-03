@@ -17,6 +17,18 @@ const NAVITEMS = [
     },
   },
   {
+    label: "orders",
+    onClick: () => {
+      console.log("Custom Clicked");
+    },
+  },
+  {
+    label: "Custom Tees",
+    onClick: () => {
+      console.log("Custom Clicked");
+    },
+  },
+  {
     label: "Contact",
     onClick: () => {
       console.log("Contact Clicked");
