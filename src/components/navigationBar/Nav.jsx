@@ -56,8 +56,8 @@ function Nav() {
       </div>
       <div className={styles.searchCartContainer}>
         <div className={styles.scItem}>
-          <SvgStringRenderer svgString={cartIcon} />
-          <span>Cart</span>
+          <SvgStringRenderer svgString={cartIcon} width={"20%"} />
+          <span className={styles.menuItemAnxText}>Cart</span>
         </div>
         <div className={styles.scItem}>
           <SvgStringRenderer
@@ -65,7 +65,7 @@ function Nav() {
             height={"30px"}
             width={"30px"}
           />
-          <span>Search</span>
+          <span className={styles.menuItemAnxText}>Search</span>
         </div>
         <Chip
           label={"Get Started"}

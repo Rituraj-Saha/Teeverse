@@ -32,6 +32,9 @@ const theme = createTheme({
       contrastText: "#fff",
       lightSecondary: "#f15e8a",
     },
+    lightBackdropForDeliver: {
+      main: "#ffecfb",
+    },
   },
   typography: {
     fontFamily: '"Poppins", "Helvetica", "Arial", "sans-serif"',
