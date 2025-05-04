@@ -1,9 +1,7 @@
 import React from "react";
 import styles from "./bannerTop.module.css";
-import theme from "../../../../../theme/theme";
-import { useTheme } from "@emotion/react";
+
 const BannerTop = () => {
-  const theme = useTheme();
   const bannerPointer = [
     {
       msg: "Speak Your Mind in Style",

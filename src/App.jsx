@@ -1,20 +1,15 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { React } from "react";
 import "./App.css";
 import Nav from "./components/navigationBar/Nav";
-import Hero from "./components/home/heroSection/Hero";
 import Home from "./components/home/Home";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import GrainyGradiant from "./reusableComponent/backgroundGrainyGrad/GrainyGradiant";
 import { CssBaseline, Divider, ThemeProvider } from "@mui/material";
 import theme, { injectCssVariables } from "./theme/theme";
 
 function App() {
-  const [count, setCount] = useState(0);
   injectCssVariables(theme);
   return (
     <ThemeProvider theme={theme}>
