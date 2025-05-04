@@ -59,7 +59,7 @@ jobs:
         with:
           build_output_path: ${{ needs.build-and-request-approval.outputs.build_output }}
         secrets:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Correct placement of secrets
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Deployment Successful
         if: success()
         run: echo "🚀 Project deployed successfully to ${{ steps.deploy-app.outputs.page_url }}"
