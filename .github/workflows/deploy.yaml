@@ -1,34 +1,21 @@
-name: Deploy with Approval
+name: Reusable Deploy Workflow
 
 on:
-  workflow_run:
-    workflows: ["Build"]
-    types:
-      - completed
+  workflow_call:
+    inputs:
+      build_output_path:
+        required: true
+        type: string
+    secrets:
+      GITHUB_TOKEN:
+        required: true
 
 jobs:
   deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    permissions:
-      pages: write
-      id-token: write
-
     steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: build-dist
-          path: ./dist
-
-      - name: Upload to GitHub Pages
-        uses: actions/upload-pages-artifact@v2
-        with:
-          path: ./dist
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
+        run: echo "Deploying from path: ${{ inputs.build_output_path }}"

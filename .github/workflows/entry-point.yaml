@@ -2,50 +2,33 @@ name: Entry Point - Build and Deploy Flow
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  build-deploy-flow:
+  build:
+    uses: ./.github/workflows/build.yml
+    with:
+      build_target: "production"
+    secrets:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  approval:
+    needs: build
     runs-on: ubuntu-latest
-
     steps:
-      - name: "Checkout Repository"
-        uses: actions/checkout@v3
-        id: checkout
-
-      - name: "Display Step 1 - Checkout Successful"
-        run: echo "Step 1- Repository checked out successfully"
-
-      - name: "Trigger Build Workflow"
-        uses: peter-evans/workflow-dispatch@v3
+      - name: Wait for Manual Approval
+        uses: trstringer/manual-approval@v1
         with:
-          workflow: build.yml
-          ref: main
-        id: trigger-build
+          secret: ${{ secrets.GITHUB_TOKEN }}
+          approvers: your-github-username
+          minimum-approvals: 1
 
-      - name: "Display Step 2 - Build Triggered"
-        run: echo "Step 2- Build workflow triggered"
-
-      - name: "Wait for Manual Approval to Deploy"
-        id: approval
-        run: |
-          echo "Step 3: Waiting for manual approval to deploy"
-        continue-on-error: true
-
-      - name: "Trigger Deploy Workflow (after approval)"
-        if: ${{ success() }}
-        uses: peter-evans/workflow-dispatch@v3
-        with:
-          workflow: deploy.yml
-          ref: main
-        id: trigger-deploy
-
-      - name: "Display Step 4 - Deploy Triggered"
-        run: echo "Step 4- Deploy workflow triggered"
-
-      - name: "Display Final Step - Flow Completion"
-        run: echo "Step 5- Build and Deploy flow completed successfully"
+  deploy:
+    needs: approval
+    uses: ./.github/workflows/deploy.yml
+    with:
+      build_output_path: ${{ needs.build.outputs.build_output_path }}
+    secrets:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
