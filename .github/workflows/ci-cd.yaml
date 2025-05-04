@@ -13,7 +13,7 @@ jobs:
     name: Build and Request Approval
     runs-on: ubuntu-latest
     outputs:
-      build_output: ${{ jobs.build.outputs.build_output_path }}
+      build_output: ${{ steps.build-step.outputs.build_output_path }} # Output from the CALL to the build workflow
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -23,7 +23,7 @@ jobs:
         id: build-step
         with:
           build_target: "production" # Example build target, adjust as needed
-        # The 'secrets' section is removed here
+        # No secrets needed here anymore
         # secrets:
         #   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
