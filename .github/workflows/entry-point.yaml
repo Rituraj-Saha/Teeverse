@@ -62,8 +62,6 @@ jobs:
         id: deploy-app
         with:
           build_output_path: ${{ needs.build-and-request-approval.outputs.build_output }}
-        secrets:
-          DEPLOYMENT_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Pass the GITHUB_TOKEN as DEPLOYMENT_TOKEN
       - name: Deployment Successful
         if: success()
         run: echo "🚀 Project deployed successfully to ${{ steps.deploy-app.outputs.page_url }}"
