@@ -1,0 +1,51 @@
+name: Entry Point - Build and Deploy Flow
+
+on:
+  push:
+    branches:
+      - main  # Trigger when push is made to the main branch
+  pull_request:
+    branches:
+      - main  # Trigger when merge is done to main
+
+jobs:
+  build-deploy-flow:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        id: checkout
+
+      - name: Display Step 1 - Checkout Successful
+        run: echo "Step 1: Repository checked out successfully"
+
+      - name: Trigger Build Workflow
+        uses: peter-evans/workflow-dispatch@v1
+        with:
+          workflow: build.yml
+          ref: main
+        id: trigger-build
+
+      - name: Display Step 2 - Build Triggered
+        run: echo "Step 2: Build workflow triggered"
+
+      - name: Wait for Manual Approval to Deploy
+        id: approval
+        run: |
+          echo "Step 3: Waiting for manual approval to deploy"
+        continue-on-error: true
+
+      - name: Trigger Deploy Workflow (after approval)
+        if: success()  # Only if the build was successful
+        uses: peter-evans/workflow-dispatch@v1
+        with:
+          workflow: deploy.yml
+          ref: main
+        id: trigger-deploy
+
+      - name: Display Step 4 - Deploy Triggered
+        run: echo "Step 4: Deploy workflow triggered"
+
+      - name: Display Final Step - Flow Completion
+        run: echo "Step 5: Build and Deploy flow completed successfully"

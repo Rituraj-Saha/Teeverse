@@ -1,30 +1,30 @@
-name: Build
+name: Build Workflow
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch: # Can be triggered by the entry point
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
 
-      - name: Setup Node
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        id: checkout
+
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: "16"
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: yarn install
 
-      - name: Build project
+      - name: Build Project
         run: yarn build
 
-      - name: Upload build artifact
+      - name: Upload Artifact (Build Output)
         uses: actions/upload-artifact@v2
         with:
-          name: build-dist
+          name: build-output
           path: dist
