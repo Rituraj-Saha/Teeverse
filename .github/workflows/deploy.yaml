@@ -1,31 +1,33 @@
-# .github/workflows/deploy.yaml
-name: Deploy to GitHub Pages
+name: Deploy React App to GitHub Pages
 
 on:
-  workflow_call:
-    inputs:
-      build_output_path:
-        required: true
-        type: string
-    secrets:
-      DEPLOYMENT_TOKEN: # Ensure this token has write permissions for gh-pages
-        required: true
+  push:
+    branches:
+      - main # or your main branch name
+  merge:
+    branches: -main
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18 # or your preferred Node.js version
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
 
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          artifact_name: github-pages
-          folder: ${{ inputs.build_output_path }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.DEPLOYMENT_TOKEN }} # Using the deployment token
+          folder: build # The folder where your production build is located (usually 'build')
+          branch: gh-pages # The branch to deploy to (gh-pages is common for GitHub Pages)
+          token: ${{ secrets.GITHUB_TOKEN }}
