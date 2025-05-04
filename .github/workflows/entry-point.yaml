@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    uses: ./.github/workflows/build.yml
+    uses: ./.github/workflows/build.yaml
     with:
       build_target: "production"
     secrets:
@@ -27,7 +27,7 @@ jobs:
 
   deploy:
     needs: approval
-    uses: ./.github/workflows/deploy.yml
+    uses: ./.github/workflows/deploy.yaml
     with:
       build_output_path: ${{ needs.build.outputs.build_output_path }}
     secrets:
