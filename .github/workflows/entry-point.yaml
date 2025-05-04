@@ -37,7 +37,7 @@ jobs:
         continue-on-error: true
 
       - name: Trigger Deploy Workflow (after approval)
-        if: success()  # Only if the build was successful
+        if: ${{ success() }}  # Only if the build was successful
         uses: peter-evans/workflow-dispatch@v1
         with:
           workflow: deploy.yml
