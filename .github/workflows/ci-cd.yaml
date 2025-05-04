@@ -66,8 +66,8 @@ jobs:
         id: deploy-app
         with:
           build_output_path: ${{ needs.build-and-request-approval.outputs.build_output }}
-        secrets:
-          DEPLOYMENT_TOKEN: ${{ secrets.DEPLOYMENT_TOKEN }}
+        # secrets:
+        #   DEPLOYMENT_TOKEN: ${{ secrets.DEPLOYMENT_TOKEN }}
       - name: Deployment Successful
         if: success()
         run: echo "🚀 Project deployed successfully to ${{ steps.deploy-app.outputs.page_url }}"
