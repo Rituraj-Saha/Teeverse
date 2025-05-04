@@ -1,31 +1,39 @@
-name: Build Project
+name: Reusable Build Workflow
 
 on:
   workflow_call:
+    inputs:
+      build_target:
+        required: true
+        type: string
+    secrets:
+      NPM_TOKEN:
+        required: true
     outputs:
       build_output_path:
-        description: "Path to the build output directory"
+        description: "Path to build output"
         value: ${{ jobs.build.outputs.build_output_path }}
 
 jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      build_output_path: ${{ steps.build-app.outputs.build_output_path }}
+      build_output_path: ${{ steps.build-step.outputs.build_output_path }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: "lts/*"
+          node-version: "18"
+          registry-url: "https://registry.npmjs.org"
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Build app
-        id: build-app
+      - name: Build
+        id: build-step
         run: |
           npm run build
-          echo "build_output_path=$(pwd)/dist" >> $GITHUB_OUTPUT
+          echo "build_output_path=dist/" >> $GITHUB_OUTPUT
