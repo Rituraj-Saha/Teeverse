@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main # or your main branch name
-  merge:
-    branches: -main
 
 jobs:
   build-and-deploy:
