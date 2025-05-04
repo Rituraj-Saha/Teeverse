@@ -43,7 +43,6 @@ jobs:
               console.log('Another workflow run is already waiting for approval.');
               core.setFailed('Another workflow run is already waiting for approval. Please approve or cancel the existing one.');
             }
-
   deploy:
     name: Deploy to Pages
     needs: build-and-request-approval
