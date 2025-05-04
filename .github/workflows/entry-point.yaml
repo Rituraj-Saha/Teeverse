@@ -21,7 +21,7 @@ jobs:
         run: echo "Step 1- Repository checked out successfully"
 
       - name: "Trigger Build Workflow"
-        uses: peter-evans/workflow-dispatch@v1
+        uses: peter-evans/workflow-dispatch@v3
         with:
           workflow: build.yml
           ref: main
@@ -38,7 +38,7 @@ jobs:
 
       - name: "Trigger Deploy Workflow (after approval)"
         if: ${{ success() }}
-        uses: peter-evans/workflow-dispatch@v1
+        uses: peter-evans/workflow-dispatch@v3
         with:
           workflow: deploy.yml
           ref: main
