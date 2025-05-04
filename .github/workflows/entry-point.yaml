@@ -12,11 +12,11 @@ jobs:
     name: Build and Request Approval
     runs-on: ubuntu-latest
     outputs:
-      build_output: ${{ jobs.build.outputs.build_output_path }}
+      build_output: ${{ steps.build-step.outputs.build_output_path }} # Corrected output reference
     steps:
       - name: Call Build Workflow
         uses: ./.github/workflows/build.yaml
-        id: build
+        id: build-step # Added an ID to the call step
 
       - name: Request Manual Approval
         if: github.event_name == 'push'
@@ -58,8 +58,9 @@ jobs:
         id: deploy-app
         with:
           build_output_path: ${{ needs.build-and-request-approval.outputs.build_output }}
+          # Removed secrets here, as it's passed in the deploy.yaml workflow call
         secrets:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Passed to the called workflow
       - name: Deployment Successful
         if: success()
         run: echo "🚀 Project deployed successfully to ${{ steps.deploy-app.outputs.page_url }}"
