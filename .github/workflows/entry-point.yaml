@@ -1,34 +1,65 @@
-name: Entry Point - Build and Deploy Flow
+name: CI/CD Pipeline
 
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch: # Optional: Allows manual triggering from the Actions tab
 
 jobs:
-  build:
-    uses: ./.github/workflows/build.yaml
-    with:
-      build_target: "production"
-    secrets:
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-  approval:
-    needs: build
+  build-and-request-approval:
+    name: Build and Request Approval
     runs-on: ubuntu-latest
+    outputs:
+      build_output: ${{ jobs.build.outputs.build_output_path }}
     steps:
-      - name: Wait for Manual Approval
-        uses: trstringer/manual-approval@v1
+      - name: Call Build Workflow
+        uses: ./.github/workflows/build.yaml
+        id: build
+
+      - name: Request Manual Approval
+        if: github.event_name == 'push'
+        run: echo "::notice title=Approval Required::A new commit has been pushed to the main branch. Please review and approve the deployment job to proceed."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Wait for Approval
+        if: github.event_name == 'push'
+        uses: actions/github-script@v7
+        id: check_approval
+        timeout-minutes: 4320 # 3 days
         with:
-          secret: ${{ secrets.GITHUB_TOKEN }}
-          approvers: your-github-username
-          minimum-approvals: 1
+          script: |
+            const workflowRuns = await github.rest.actions.listWorkflowRuns({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: context.workflow,
+              branch: context.ref.split('/')[2],
+              event: 'push',
+              status: 'waiting',
+            });
+            if (workflowRuns.data.total_count > 1) {
+              console.log('Another workflow run is already waiting for approval.');
+              core.setFailed('Another workflow run is already waiting for approval. Please approve or cancel the existing one.');
+            }
 
   deploy:
-    needs: approval
-    uses: ./.github/workflows/deploy.yaml
-    with:
-      build_output_path: ${{ needs.build.outputs.build_output_path }}
-    secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    name: Deploy to Pages
+    needs: build-and-request-approval
+    if: github.event_name == 'push' && needs.build-and-request-approval.outputs.build_output != ''
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy-app.outputs.page_url }}
+    steps:
+      - name: Call Deploy Workflow
+        uses: ./.github/workflows/deploy.yaml
+        id: deploy-app
+        with:
+          build_output_path: ${{ needs.build-and-request-approval.outputs.build_output }}
+        secrets:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deployment Successful
+        if: success()
+        run: echo "🚀 Project deployed successfully to ${{ steps.deploy-app.outputs.page_url }}"
