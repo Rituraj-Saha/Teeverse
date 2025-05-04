@@ -1,3 +1,4 @@
+# .github/workflows/ci-cd.yaml
 name: CI/CD Pipeline
 
 on:
@@ -12,7 +13,7 @@ jobs:
     name: Build and Request Approval
     runs-on: ubuntu-latest
     outputs:
-      build_output: ${{ steps.build-step.outputs.build_output_path }}
+      build_output: ${{ jobs.build.outputs.build_output_path }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -20,12 +21,15 @@ jobs:
       - name: Call Build Workflow
         uses: ./.github/workflows/build.yaml
         id: build-step
+        with:
+          build_target: "production" # Example build target, adjust as needed
+        # The 'secrets' section is removed here
+        # secrets:
+        #   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Request Manual Approval
         if: github.event_name == 'push'
         run: echo "::notice title=Approval Required::A new commit has been pushed to the main branch. Please review and approve the deployment job to proceed."
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Wait for Approval
         if: github.event_name == 'push'
@@ -49,7 +53,7 @@ jobs:
   deploy:
     name: Deploy to Pages
     needs: build-and-request-approval
-    if: github.event_name == 'push' && needs.build-and-request-approval.outputs.build_output != ''
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -62,6 +66,8 @@ jobs:
         id: deploy-app
         with:
           build_output_path: ${{ needs.build-and-request-approval.outputs.build_output }}
+        secrets:
+          DEPLOYMENT_TOKEN: ${{ secrets.DEPLOYMENT_TOKEN }}
       - name: Deployment Successful
         if: success()
         run: echo "🚀 Project deployed successfully to ${{ steps.deploy-app.outputs.page_url }}"

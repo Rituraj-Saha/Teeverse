@@ -1,3 +1,4 @@
+# .github/workflows/build.yaml
 name: Reusable Build Workflow
 
 on:
@@ -6,9 +7,6 @@ on:
       build_target:
         required: true
         type: string
-    secrets:
-      NPM_TOKEN:
-        required: true
     outputs:
       build_output_path:
         description: "Path to build output"
@@ -21,13 +19,12 @@ jobs:
       build_output_path: ${{ steps.build-step.outputs.build_output_path }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4 # Using v4 as it's current
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "18"
-          registry-url: "https://registry.npmjs.org"
 
       - name: Install dependencies
         run: npm ci
@@ -36,4 +33,4 @@ jobs:
         id: build-step
         run: |
           npm run build
-          echo "build_output_path=dist/" >> $GITHUB_OUTPUT
+          echo "build_output_path=build/" >> $GITHUB_OUTPUT # Assuming standard React build output folder

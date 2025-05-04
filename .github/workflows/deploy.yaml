@@ -1,3 +1,4 @@
+# .github/workflows/deploy.yaml
 name: Deploy to GitHub Pages
 
 on:
@@ -7,7 +8,7 @@ on:
         required: true
         type: string
     secrets:
-      DEPLOYMENT_TOKEN: # Renamed the secret
+      DEPLOYMENT_TOKEN: # Ensure this token has write permissions for gh-pages
         required: true
 
 jobs:
@@ -27,4 +28,4 @@ jobs:
           artifact_name: github-pages
           folder: ${{ inputs.build_output_path }}
         env:
-          GITHUB_TOKEN: ${{ secrets.DEPLOYMENT_TOKEN }} # Use the new secret name
+          GITHUB_TOKEN: ${{ secrets.DEPLOYMENT_TOKEN }} # Using the deployment token
