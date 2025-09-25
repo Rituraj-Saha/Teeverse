@@ -8,25 +8,41 @@ initializeApp();
 const db = getFirestore();
 
 const apiKeyParam = defineString("API_KEY");
+// CORS handling function
+const corsHandler = (req, res, callback) => {
+  res.set("Access-Control-Allow-Origin", "*"); // Or replace * with your domain, e.g., 'https://yourwebsite.com'
+  res.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.set("Access-Control-Allow-Headers", "Content-Type, X-Api-Key");
+
+  if (req.method === "OPTIONS") {
+    // Pre-flight request. Send a 204 status code with headers.
+    res.status(204).send("");
+    return;
+  }
+  callback();
+};
+
 // Export the getProducts function
 export const getProducts = onRequest(async (req, res) => {
-  if (req.method !== "GET") {
-    return res.status(405).send("Method Not Allowed");
-  }
+  corsHandler(req, res, async () => {
+    if (req.method !== "GET") {
+      return res.status(405).send("Method Not Allowed");
+    }
 
-  try {
-    const productsCollection = db.collection("products");
-    const snapshot = await productsCollection.get();
-    const productsList = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
+    try {
+      const productsCollection = db.collection("products");
+      const snapshot = await productsCollection.get();
+      const productsList = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
 
-    return res.status(200).json(productsList);
-  } catch (error) {
-    console.error("Error fetching products:", error);
-    return res.status(500).send("Internal Server Error");
-  }
+      return res.status(200).json(productsList);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      return res.status(500).send("Internal Server Error");
+    }
+  });
 });
 
 // Export the recordOrder function

@@ -3,6 +3,7 @@ import styles from "./nav.module.css";
 import { cartIcon, searchIcon, ShirtLOGO } from "../../assets/svgAssets";
 import SvgStringRenderer from "../../reusableComponent/SvgReusableRenderer";
 import { Chip, useTheme } from "@mui/material";
+import TeesVerseBg from "../../assets/TeesVerseBg.png";
 const NAVITEMS = [
   {
     label: "Home",
@@ -29,10 +30,12 @@ function Nav() {
   return (
     <nav className={styles.parent}>
       <div className={styles.navBranding}>
-        <div className={styles.logoWrapper}>
-          <SvgStringRenderer svgString={ShirtLOGO} />
-        </div>
-        <span className={styles.brandingText}>TEE-VERSE</span>
+        <img
+          className={styles.brandingText}
+          src={TeesVerseBg}
+          height={50}
+          width={90}
+        ></img>
       </div>
 
       <div className={styles.optionContainer}>

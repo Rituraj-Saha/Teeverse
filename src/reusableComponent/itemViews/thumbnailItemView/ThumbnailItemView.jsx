@@ -85,7 +85,7 @@ const ThumbnailItemView = (props) => {
             }}
           ></Chip>
         </div>
-        <div className={styles.gaContainer}>
+        {/* <div className={styles.gaContainer}>
           <div>
             <span className={styles.productName}>Gender:</span>
             <span className={styles.nameValue}>{gender}</span>
@@ -94,7 +94,7 @@ const ThumbnailItemView = (props) => {
             <span className={styles.productName}>Age:</span>
             <span className={styles.nameValue}>{ageGroup}</span>
           </div>
-        </div>
+        </div> */}
         <SizeSelector availableSize={sizeAvailabilibity} />
         <div className={styles.priceContainer}>
           <span className={styles.productName}>INR: </span>

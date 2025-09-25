@@ -1,6 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-const repositoryName = "Teeverse";
+const repositoryName = "Teesverse";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
