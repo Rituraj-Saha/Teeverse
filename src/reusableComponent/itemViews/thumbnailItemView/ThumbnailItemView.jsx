@@ -70,7 +70,7 @@ const ThumbnailItemView = (props) => {
         <div className={styles.nameContainer}>
           <span className={styles.productName}>{name}</span>
           <Chip
-            label={"View Product"}
+            label={"Buy Now"}
             onClick={() => {}}
             variant="outlined"
             sx={{
@@ -120,9 +120,9 @@ const ThumbnailItemView = (props) => {
           >
             {`₹${price - (price * discount) / 100}`}
           </span>
-          <div className={styles.cartWrapper}>
+          {/* <div className={styles.cartWrapper}>
             <SvgStringRenderer svgString={cartIconItem} />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

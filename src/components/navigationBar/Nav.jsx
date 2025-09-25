@@ -16,18 +16,7 @@ const NAVITEMS = [
       console.log("Product Clicked");
     },
   },
-  {
-    label: "orders",
-    onClick: () => {
-      console.log("Custom Clicked");
-    },
-  },
-  {
-    label: "Custom Tees",
-    onClick: () => {
-      console.log("Custom Clicked");
-    },
-  },
+
   {
     label: "Contact",
     onClick: () => {
@@ -65,31 +54,6 @@ function Nav() {
             );
           })}
         </ul>
-      </div>
-      <div className={styles.searchCartContainer}>
-        <div className={styles.scItem}>
-          <SvgStringRenderer svgString={cartIcon} width={"20%"} />
-          <span className={styles.menuItemAnxText}>Cart</span>
-        </div>
-        <div className={styles.scItem}>
-          <SvgStringRenderer
-            svgString={searchIcon}
-            height={"30px"}
-            width={"30px"}
-          />
-          <span className={styles.menuItemAnxText}>Search</span>
-        </div>
-        <Chip
-          label={"Get Started"}
-          onClick={() => {
-            console.log("get started clicked");
-          }}
-          variant="outlined"
-          sx={{
-            background: theme.palette.secondary.main,
-            color: "#FFF",
-          }}
-        />
       </div>
     </nav>
   );
