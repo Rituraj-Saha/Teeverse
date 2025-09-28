@@ -8,9 +8,14 @@ import {
   DialogContent,
   DialogTitle,
   TextField,
-  MenuItem,
   IconButton,
   Tooltip,
+  Select,
+  Checkbox,
+  ListItemText,
+  FormControl,
+  InputLabel,
+  MenuItem,
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
 import axios from "axios";
@@ -27,11 +32,13 @@ export default function ProductAdminPanel() {
     discount: "",
     maxorderCount: "",
     availableSize: [],
+    availableColors: [],
     thumbnail: null,
     images: [],
   });
 
   const SIZE_OPTIONS = ["S", "M", "L", "XL", "XXL"];
+  const COLOR_OPTIONS = ["Black", "White", "Olive"];
 
   useEffect(() => {
     fetchProducts();
@@ -39,7 +46,9 @@ export default function ProductAdminPanel() {
 
   const fetchProducts = async () => {
     try {
-      const { data } = await axios.get(`https://getproducts-chwarfmcvq-uc.a.run.app`);
+      const { data } = await axios.get(
+        `https://getproducts-chwarfmcvq-uc.a.run.app`
+      );
       setProducts(data);
     } catch (err) {
       console.error("Error fetching products", err);
@@ -55,6 +64,7 @@ export default function ProductAdminPanel() {
         discount: product.discount || "",
         maxorderCount: product.maxorderCount || "",
         availableSize: product.availableSize || [],
+        availableColors: product.availableColors || [],
         thumbnail: null,
         images: [],
       });
@@ -65,6 +75,7 @@ export default function ProductAdminPanel() {
         discount: "",
         maxorderCount: "",
         availableSize: [],
+        availableColors: [],
         thumbnail: null,
         images: [],
       });
@@ -89,11 +100,23 @@ export default function ProductAdminPanel() {
   };
 
   const handleSizeChange = (e) => {
-    const value = Array.from(
-      e.target.selectedOptions,
-      (option) => option.value
-    );
-    setFormData({ ...formData, availableSize: value });
+    const {
+      target: { value },
+    } = e;
+    setFormData({
+      ...formData,
+      availableSize: typeof value === "string" ? value.split(",") : value,
+    });
+  };
+
+  const handleColorChange = (e) => {
+    const {
+      target: { value },
+    } = e;
+    setFormData({
+      ...formData,
+      availableColors: typeof value === "string" ? value.split(",") : value,
+    });
   };
 
   const handleSubmit = async () => {
@@ -101,13 +124,17 @@ export default function ProductAdminPanel() {
       let productId = editingProduct?.id;
       if (!editingProduct) {
         // Create Product
-        const { data } = await axios.post(`https://createproduct-chwarfmcvq-uc.a.run.app`, {
-          productName: formData.productName,
-          price: parseFloat(formData.price),
-          discount: parseFloat(formData.discount),
-          maxorderCount: parseInt(formData.maxorderCount),
-          availableSize: formData.availableSize,
-        });
+        const { data } = await axios.post(
+          `https://createproduct-chwarfmcvq-uc.a.run.app`,
+          {
+            productName: formData.productName,
+            price: parseFloat(formData.price),
+            discount: parseFloat(formData.discount),
+            maxorderCount: parseInt(formData.maxorderCount),
+            availableSize: formData.availableSize,
+            availableColors: formData.availableColors,
+          }
+        );
         productId = data.id;
       } else {
         // Update Product
@@ -118,6 +145,7 @@ export default function ProductAdminPanel() {
           discount: parseFloat(formData.discount),
           maxorderCount: parseInt(formData.maxorderCount),
           availableSize: formData.availableSize,
+          availableColors: formData.availableColors,
         });
       }
 
@@ -128,11 +156,8 @@ export default function ProductAdminPanel() {
           fileData.append("thumbnail", formData.thumbnail);
         formData.images.forEach((img) => fileData.append("images", img));
         await axios.post(
-          `${API_BASE}/uploadProductFiles?productId=${productId}`,
-          fileData,
-          {
-            headers: { "Content-Type": "multipart/form-data" },
-          }
+          `https://uploadproductfiles-chwarfmcvq-uc.a.run.app?productId=${productId}`,
+          fileData
         );
       }
 
@@ -163,12 +188,12 @@ export default function ProductAdminPanel() {
       header: "Available Sizes",
       Cell: ({ cell }) => cell.getValue().join(", "),
     },
-    { accessorKey: "discount", header: "Discount (%)" },
     {
-      accessorKey: "discountAvailable",
-      header: "Discount Available",
-      Cell: ({ cell }) => (cell.getValue() ? "Yes" : "No"),
+      accessorKey: "availableColors",
+      header: "Available Colors",
+      Cell: ({ cell }) => cell.getValue()?.join(", ") || "N/A",
     },
+    { accessorKey: "discount", header: "Discount (%)" },
     { accessorKey: "maxorderCount", header: "Max Order Count" },
     {
       accessorKey: "thumbnail",
@@ -216,12 +241,28 @@ export default function ProductAdminPanel() {
       >
         Add Product
       </Button>
-      <MaterialReactTable
-        columns={columns}
-        data={products}
-        enablePagination
-        enableRowActions
-      />
+
+      <div
+        style={{ overflowX: "auto", border: "1px solid black", width: "70vw" }}
+      >
+        <MaterialReactTable
+          columns={columns}
+          data={products}
+          enablePagination
+          enableRowActions
+          muiTableContainerProps={{
+            sx: {
+              overflowX: "auto",
+              maxWidth: "100%",
+            },
+          }}
+          muiTablePaperProps={{
+            sx: {
+              minWidth: "900px",
+            },
+          }}
+        />
+      </div>
 
       {/* Modal for Add/Edit */}
       <Dialog
@@ -267,20 +308,45 @@ export default function ProductAdminPanel() {
             onChange={handleChange}
             fullWidth
           />
-          <TextField
-            select
-            label="Available Sizes"
-            multiple
-            value={formData.availableSize}
-            onChange={handleSizeChange}
-            fullWidth
-          >
-            {SIZE_OPTIONS.map((size) => (
-              <MenuItem key={size} value={size}>
-                {size}
-              </MenuItem>
-            ))}
-          </TextField>
+
+          {/* Sizes Selector */}
+          <FormControl fullWidth>
+            <InputLabel>Available Sizes</InputLabel>
+            <Select
+              multiple
+              value={formData.availableSize}
+              onChange={handleSizeChange}
+              renderValue={(selected) => selected.join(", ")}
+            >
+              {SIZE_OPTIONS.map((size) => (
+                <MenuItem key={size} value={size}>
+                  <Checkbox checked={formData.availableSize.includes(size)} />
+                  <ListItemText primary={size} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          {/* Colors Selector */}
+          <FormControl fullWidth>
+            <InputLabel>Available Colors</InputLabel>
+            <Select
+              multiple
+              value={formData.availableColors}
+              onChange={handleColorChange}
+              renderValue={(selected) => selected.join(", ")}
+            >
+              {COLOR_OPTIONS.map((color) => (
+                <MenuItem key={color} value={color}>
+                  <Checkbox
+                    checked={formData.availableColors.includes(color)}
+                  />
+                  <ListItemText primary={color} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
           <input type="file" name="thumbnail" onChange={handleChange} />
           <input type="file" name="images" multiple onChange={handleChange} />
         </DialogContent>
