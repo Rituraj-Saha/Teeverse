@@ -5,7 +5,7 @@ import StoreContent from "./storeContent/StoreContent";
 function StoreWrapper() {
   return (
     <div className={styles.parent}>
-      <FilterContainer />
+      {/* <FilterContainer /> */}
       <div
         style={{
           display: "flex",

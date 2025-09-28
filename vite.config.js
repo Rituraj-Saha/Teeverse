@@ -4,7 +4,7 @@ const repositoryName = "Teesverse";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: `/${repositoryName}/`,
+  base: `/`,
   build: {
     outDir: "dist",
   },

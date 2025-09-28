@@ -27,38 +27,43 @@ const NAVITEMS = [
 ];
 function Nav() {
   const theme = useTheme();
+  console.log(window.location.pathname);
   return (
-    <nav className={styles.parent}>
-      <div className={styles.navBranding}>
-        <img
-          className={styles.brandingText}
-          src={TeesVerseBg}
-          height={50}
-          width={90}
-        ></img>
-      </div>
+    <>
+      {window.location.pathname !== "/admin" && (
+        <nav className={styles.parent}>
+          <div className={styles.navBranding}>
+            <img
+              className={styles.brandingText}
+              src={TeesVerseBg}
+              height={50}
+              width={90}
+            ></img>
+          </div>
 
-      <div className={styles.optionContainer}>
-        <ul className={styles.ulStyle}>
-          {NAVITEMS.map((itemm, index) => {
-            return (
-              <Chip
-                label={itemm.label}
-                key={index}
-                onClick={itemm.onClick}
-                variant="outlined"
-                sx={{
-                  background: theme.palette.custom.dark,
-                  color: "#FFF",
-                  paddingLeft: "5px",
-                  paddingRight: "5px",
-                }}
-              ></Chip>
-            );
-          })}
-        </ul>
-      </div>
-    </nav>
+          <div className={styles.optionContainer}>
+            <ul className={styles.ulStyle}>
+              {NAVITEMS.map((itemm, index) => {
+                return (
+                  <Chip
+                    label={itemm.label}
+                    key={index}
+                    onClick={itemm.onClick}
+                    variant="outlined"
+                    sx={{
+                      background: theme.palette.custom.dark,
+                      color: "#FFF",
+                      paddingLeft: "5px",
+                      paddingRight: "5px",
+                    }}
+                  ></Chip>
+                );
+              })}
+            </ul>
+          </div>
+        </nav>
+      )}
+    </>
   );
 }
 

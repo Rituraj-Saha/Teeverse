@@ -2,11 +2,12 @@ import React from "react";
 import ThumbnailItemView from "../../../../../reusableComponent/itemViews/thumbnailItemView/ThumbnailItemView";
 import { FEATUREDPRODUCT } from "../../../../../assets/payload/FEATURED-PRODUCT";
 import { ClipLoader } from "react-spinners";
+import useIsMobile from "../../../../../customhook/useIsMobile";
 function StoreContent(props) {
   const [data, setData] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
-  const { numColumns = 3, currentPage = 1 } = props;
+  const numColumns = useIsMobile() ? 1 : 3;
   React.useEffect(() => {
     const fetchData = async () => {
       try {
@@ -52,6 +53,7 @@ function StoreContent(props) {
               discount={item.discount}
               maxStock={item.maxStock}
               sizeAvailabilibity={item.availableSize}
+              thumbnail={item.thumbnail}
             />
           );
         })

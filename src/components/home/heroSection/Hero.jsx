@@ -3,6 +3,9 @@ import styles from "./Hero.module.css";
 import SvgStringRenderer from "../../../reusableComponent/SvgReusableRenderer";
 import { playBtn, svgOK } from "../../../assets/svgAssets";
 import { Chip, useTheme } from "@mui/material";
+import CaroualImpl from "../../../reusableComponent/carousal/Carousel";
+import bl from "../../../assets/bl.png";
+import wh from "../../../assets/wh.png";
 const Hero = () => {
   const theme = useTheme();
   const valueAdder = [
@@ -19,6 +22,26 @@ const Hero = () => {
       msg: "Superior Quality",
     },
   ];
+  const items = [
+    <div style={{ display: "flex", width: "300px", height: "100%" }}>
+      <img
+        src={bl}
+        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+      />
+    </div>,
+    <div style={{ display: "flex", width: "300px", height: "250px" }}>
+      <img
+        src={wh}
+        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+      />
+    </div>,
+    <div style={{ display: "flex", width: "300px", height: "250px" }}>
+      <img
+        src={bl}
+        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+      />
+    </div>,
+  ];
   const boldMsg = {
     msg: "Getting the best and latest style has never",
     boldTxt: "been easier!",
@@ -27,15 +50,7 @@ const Hero = () => {
     "Tee-verse is a platform that helps to make fashion accessible to all. It brings fashion to your doorstep!";
   return (
     <div className={styles.parent}>
-      <div
-        style={{
-          display: "flex",
-          flex: 0.5,
-          minHeight: "100% !important",
-          alignItems: "center",
-          flexDirection: "column",
-        }}
-      >
+      <div className={styles.left}>
         <div className={styles.glassEffectOne}>
           {valueAdder.map((item, idx) => {
             return (
@@ -116,14 +131,9 @@ const Hero = () => {
           </div>
         </div>
       </div>
-      <div
-        style={{
-          display: "flex",
-          flex: 0.5,
-          // border: "1px solid black",
-          minHeight: "100%",
-        }}
-      ></div>
+      <div className={styles.right}>
+        <CaroualImpl items={items} />
+      </div>
     </div>
   );
 };
