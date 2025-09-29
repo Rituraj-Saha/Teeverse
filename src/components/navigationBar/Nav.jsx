@@ -12,14 +12,14 @@ const NAVITEMS = [
     },
   },
   {
-    label: "Product",
+    label: "About",
     onClick: () => {
       console.log("Product Clicked");
     },
   },
 
   {
-    label: "Contact",
+    label: "Contact Us",
     onClick: () => {
       console.log("Contact Clicked");
     },

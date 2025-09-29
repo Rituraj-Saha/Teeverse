@@ -11,8 +11,11 @@ import { CssBaseline, Divider, ThemeProvider } from "@mui/material";
 import theme, { injectCssVariables } from "./theme/theme";
 import { Routes, Route } from "react-router-dom";
 import Admin from "./admin/admin";
+import useIsMobile from "./customhook/useIsMobile";
+import Footer from "./components/Fotter";
 function App() {
   injectCssVariables(theme);
+  const isMobile = useIsMobile();
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -20,7 +23,7 @@ function App() {
       <Nav />
       <div
         style={{
-          marginTop: "8vh",
+          marginTop: isMobile ? "0vh" : "8vh",
         }}
       >
         <Divider
@@ -46,6 +49,7 @@ function App() {
             {/* Optional: Catch-all for unknown paths */}
           </Routes>
         </BrowserRouter>
+        <Footer />
       </div>
     </ThemeProvider>
   );

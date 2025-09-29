@@ -77,7 +77,7 @@ const Hero = () => {
         <span className={styles.boldMsgTxtBolder}>{boldMsg.boldTxt}</span>
         <span className={styles.statMsg}>{statMsg}</span>
 
-        <div
+        {/* <div
           style={{
             display: "flex",
             marginTop: "15px",
@@ -129,7 +129,7 @@ const Hero = () => {
               Watch Review
             </span>
           </div>
-        </div>
+        </div> */}
       </div>
       <div className={styles.right}>
         <CaroualImpl items={items} />
